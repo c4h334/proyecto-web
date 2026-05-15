@@ -1,11 +1,8 @@
-import './App.css'
+
+import { CustomerList } from "./components/CustomerList";
 
 function App() {
-
-  return (
-    <>
-    </>
-  )
+  return <CustomerList />;
 }
 
-export default App
+export default App;
