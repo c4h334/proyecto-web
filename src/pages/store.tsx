@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { GaleriaProyectos } from '../components/GaleriaProyectos';
 
 // === DEFINICIÓN DE DATOS Y ESTILOS (Todo en un solo archivo) ===
 
@@ -13,7 +14,7 @@ interface Product {
   description: string;
 }
 
-// === Datos quemado, se reemplaza después cuando se conecta con la db
+// === Datos quemados, se reemplaza después cuando se conecta con la db
 const mockProducts: Product[] = [
   // Categoría: Cocina
   { id: 1, name: 'Sartén Antiadherente Premium', category: 'cocina', imageUrl: 'https://images.unsplash.com/photo-1610348725531-843dff563e2c?q=80&w=300&auto=format&fit=crop', price: 35.99, offer: '10% de descuento', description: 'Aluminio forjado, libre de PFOA. Mango ergonómico de acero.' },
@@ -47,7 +48,7 @@ const colors = {
 };
 
 // === COMPONENTE PRINCIPAL ===
-const store: React.FC = () => {
+const Store: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('todos');
 
   // Lógica de filtrado de productos
@@ -55,15 +56,14 @@ const store: React.FC = () => {
     ? mockProducts
     : mockProducts.filter(product => product.category === selectedCategory);
 
-  const subtasks = [
-
-  ];
+  const subtasks: any[] = [];
   const totalSubtasks = subtasks.length;
   const completedSubtasks = 5;
-  const progressPercentage = (completedSubtasks / totalSubtasks) * 100;
+  // Validación para evitar dividir por cero si no hay subtasks
+  const progressPercentage = totalSubtasks > 0 ? (completedSubtasks / totalSubtasks) * 100 : 0;
 
-  
-    const styles: { [key: string]: any } = {    page: {
+  const styles: { [key: string]: any } = {    
+    page: {
       fontFamily: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif',
       color: colors.text,
       backgroundColor: colors.white,
@@ -104,7 +104,6 @@ const store: React.FC = () => {
       fontSize: '1.8rem',
       fontWeight: '600',
     },
-    
     // Estilos para la sección del Catálogo
     catalogSection: {
       backgroundColor: colors.secondary,
@@ -134,7 +133,6 @@ const store: React.FC = () => {
       transition: 'background-color 0.3s ease, transform 0.2s ease',
       cursor: 'pointer',
     },
-
     // Estilos para las pestañas de filtrado
     tabs: {
       display: 'flex',
@@ -156,7 +154,6 @@ const store: React.FC = () => {
       transition: 'background-color 0.3s ease, box-shadow 0.2s ease',
       outline: 'none',
     }),
-
     // Estilos para la cuadrícula de productos
     productGrid: {
       display: 'grid',
@@ -249,7 +246,6 @@ const store: React.FC = () => {
       width: '100%',
       transition: 'background-color 0.2s ease',
     },
-
     subtasksSection: {
       borderTop: `1px solid ${colors.border}`,
       paddingTop: '40px',
@@ -312,8 +308,7 @@ const store: React.FC = () => {
           <h2 style={styles.sectionTitle}>Nuestro Catálogo Actualizado</h2>
           <p style={styles.catalogText}>Descarga nuestro catálogo completo en formato PDF para visualizar offline todos nuestros productos, especificaciones técnicas y ofertas exclusivas detalladas.</p>
           <a
-            href="https://www.maxionline.ec/wp-content/uploads/2024/06/PDF-Catalogo-Primavera-Hombres-2024.pdf" /* Aquí también usar 
-            contenful para cuando el admin ocupa cambiarlo a futuro) */
+            href="https://www.maxionline.ec/wp-content/uploads/2024/06/PDF-Catalogo-Primavera-Hombres-2024.pdf" 
             target="_blank"
             rel="noopener noreferrer"
             style={styles.catalogButton}
@@ -321,6 +316,12 @@ const store: React.FC = () => {
           >
             Ver Catálogo en PDF
           </a>
+        </section>
+
+        {/* SECCION DE LA GALERIA DE CONTENTFUL */}
+        <section style={styles.section}>
+          <h2 style={styles.sectionTitle}>Galería de Proyectos Destacados</h2>
+          <GaleriaProyectos />
         </section>
 
         {/* === SECCIÓN DE LA TIENDA === */}
@@ -368,4 +369,4 @@ const store: React.FC = () => {
   );
 };
 
-export default store;
+export default Store;
