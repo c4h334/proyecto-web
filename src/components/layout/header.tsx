@@ -9,7 +9,6 @@ export default function Header() {
   const navigationLinks = [
     { name: 'Inicio', path: '/' },
     { name: 'Tienda', path: '/store' },
-    { name: 'Catálogo', path: '/catalog' },
     { name: 'Carrito', path: '/cart' },
     { name: 'Contacto', path: '/contact' },
     { name: 'Iniciar Sesión', path: '/login' },
