@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { GaleriaProyectos } from '../components/GaleriaProyectos';
 import type { Customer } from '../models/responses/Customer';
 import { getCustomers } from '../services/CustomerService';
+import { ProductList } from '../components/ProductList';
 
 const colors = {
   primary: '#0056b3',
@@ -134,14 +135,9 @@ const Store: React.FC = () => {
 
   return (
     <div style={styles.page}>
-      <header style={styles.header}>
-        <div style={styles.container}>
-          <h1 style={styles.title}>Panel de Administración</h1>
-        </div>
-      </header>
-
       <main style={styles.container}>
         
+        {/* Sección del Catálogo con enlace al PDF */}
         <section style={{ ...styles.section, ...styles.catalogSection }}>
           <h2 style={styles.sectionTitle}>Nuestro Catálogo Actualizado</h2>
 
@@ -160,63 +156,11 @@ const Store: React.FC = () => {
           </a>
         </section>
 
+        {/* Sección de productos*/}
         <section style={styles.section}>
-          <h2 style={styles.sectionTitle}>
-            Galería de Proyectos Destacados
-          </h2>
-
-          <GaleriaProyectos />
+          <ProductList />
         </section>
 
-        <section style={styles.section}>
-          <h2 style={styles.sectionTitle}>
-            Clientes Registrados en el Sistema
-          </h2>
-
-          {loading ? (
-            <p style={{ textAlign: 'center' }}>
-              Conectando con el servidor y cargando clientes...
-            </p>
-          ) : error ? (
-            <p style={{ textAlign: 'center', color: 'red' }}>
-              {error}
-            </p>
-          ) : (
-            <div style={styles.customerGrid}>
-              {customers.map((customer) => (
-                <article
-                  key={customer.customerResourceId}
-                  style={styles.customerCard}
-                >
-                  <h3 style={styles.customerName}>
-                    {customer.fullName}
-                  </h3>
-
-                  <p style={styles.customerDetail}>
-                    <strong>Email:</strong> {customer.email}
-                  </p>
-
-                  <p style={styles.customerDetail}>
-                    <strong>Teléfono:</strong>{' '}
-                    {customer.phone || 'No especificado'}
-                  </p>
-                </article>
-              ))}
-
-              {customers.length === 0 && (
-                <p
-                  style={{
-                    gridColumn: '1/-1',
-                    textAlign: 'center',
-                    color: '#666',
-                  }}
-                >
-                  No se encontraron clientes.
-                </p>
-              )}
-            </div>
-          )}
-        </section>
       </main>
     </div>
   );
