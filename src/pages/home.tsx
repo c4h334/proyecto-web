@@ -1,61 +1,37 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import type { Product } from '../models/responses/Product';
+import { getProducts } from '../services/ProductService';
 
-// ============================================================
-// INTERFACES
-// ============================================================
-interface Product {
-  id: number;
-  name: string;
-  price: number;
-  imageUrl: string;
-  discount?: string;
-}
-
-// ============================================================
-// DATOS MOCK — Reemplazar con llamadas a la BD cuando esté lista
-// ============================================================
-const mainProducts: Product[] = [
-  { id: 1, name: "Refrigeradora Inverter",     price: 350000, imageUrl: "https://placehold.co/300x300/e2e8f0/475569?text=Refrigeradora" },
-  { id: 2, name: "Smart TV 55' 4K",            price: 280000, imageUrl: "https://placehold.co/300x300/e2e8f0/475569?text=Smart+TV" },
-  { id: 3, name: "Lavadora Automática",         price: 210000, imageUrl: "https://placehold.co/300x300/e2e8f0/475569?text=Lavadora" },
-  { id: 4, name: "Cocina de Gas 6 Quemadores", price: 185000, imageUrl: "https://placehold.co/300x300/e2e8f0/475569?text=Cocina" },
-{ id: 11, name: "Cocina de Gas 6 Quemadores", price: 185000, imageUrl: "https://placehold.co/300x300/e2e8f0/475569?text=Cocina" },
-
-];
-
-// TODO: obtener de BD — query: ORDER BY created_at DESC LIMIT 10
-const newArrivals: Product[] = [
-  { id: 5, name: "Laptop Gaming Serie RTX",      price: 650000, imageUrl: "https://placehold.co/300x300/e2e8f0/475569?text=Laptop" },
-  { id: 6, name: "Smartphone Última Generación", price: 420000, imageUrl: "https://placehold.co/300x300/e2e8f0/475569?text=Smartphone" },
-  { id: 7, name: "Audífonos Inalámbricos Pro",   price: 85000,  imageUrl: "https://placehold.co/300x300/e2e8f0/475569?text=Audifonos" },
-];
-
-// TODO: obtener de BD — query: WHERE discount IS NOT NULL
-const saleProducts: Product[] = [
-  { id: 8,  name: "Microondas Digital",    price: 45000, imageUrl: "https://placehold.co/300x300/e2e8f0/475569?text=Microondas", discount: "-20%" },
-  { id: 9,  name: "Licuadora Profesional", price: 30000, imageUrl: "https://placehold.co/300x300/e2e8f0/475569?text=Licuadora",  discount: "-15%" },
-  { id: 10, name: "Ventilador de Torre",   price: 25000, imageUrl: "https://placehold.co/300x300/e2e8f0/475569?text=Ventilador", discount: "-30%" },
-];
-
-// ============================================================
-// URLs del carrusel hero — reemplazá por las tuyas
-// ============================================================
 const heroBannerImages = [
-  "https://placehold.co/1200x520/1e3a8a/ffffff?text=Banner+1",
-  "https://placehold.co/1200x520/1e3a8a/ffffff?text=Banner+2",
-  "https://placehold.co/1200x520/1e3a8a/ffffff?text=Banner+3",
+  "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?q=80&w=1200&auto=format&fit=crop", 
+  "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1200&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1498049794561-7780e7231661?q=80&w=1200&auto=format&fit=crop",
 ];
 
-// ============================================================
-// PÁGINA PRINCIPAL
-// ============================================================
 export default function Home() {
   const loggedInUser = "Cliente";
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    getProducts()
+      .then((data) => {
+        setProducts(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error al cargar productos en el Home:", err);
+        setLoading(false);
+      });
+  }, []);
+
+  const mainProducts = products.slice(0, 8);
+  const newArrivals = [...products].reverse().slice(0, 6); // Ampliado a 6 para notar más el carrusel
+  const saleProducts = products.filter(product => product.discount > 0);
 
   return (
     <main className="w-full bg-gray-50 min-h-screen pb-12 overflow-hidden">
-
       <HeroCarousel loggedInUser={loggedInUser} />
 
       {/* Info general del proyecto */}
@@ -79,26 +55,36 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Carruseles de productos */}
+      {/* Carruseles */}
       <div className="max-w-7xl mx-auto px-4 md:px-8 mt-12 space-y-16">
+        {loading ? (
+          <div className="text-center py-12">
+            <p className="text-gray-500 text-lg animate-pulse">Cargando la tienda...</p>
+          </div>
+        ) : products.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-gray-500 text-lg">No hay productos disponibles.</p>
+          </div>
+        ) : (
+          <>
+            {/* 2. Recién Llegados  */}
+            {newArrivals.length > 0 && (
+              <ProductCarousel title="Recién Llegados 🔥" products={newArrivals} autoScroll />
+            )}
 
-        {/* TODO: reemplazar mainProducts con fetch a BD */}
-        <ProductCarousel title="Nuestros Productos" products={mainProducts} />
-
-        {/* TODO: reemplazar newArrivals con fetch a BD */}
-        <ProductCarousel title="Recién Llegados 🔥" products={newArrivals} />
-
-        {/* TODO: reemplazar saleProducts con fetch a BD */}
-        <ProductCarousel title="Ofertas Especiales 💸" products={saleProducts} isSale />
-
+            {/* 3. Ofertas Especiales*/}
+            {saleProducts.length > 0 && (
+              <ProductCarousel title="Ofertas Especiales 💸" products={saleProducts} isSale autoScroll />
+            )}
+          </>
+        )}
       </div>
-
     </main>
   );
 }
 
 // ============================================================
-// COMPONENTE — Hero con carrusel automático
+// Carrusel
 // ============================================================
 function HeroCarousel({ loggedInUser }: { loggedInUser: string }) {
   const [current, setCurrent] = useState(0);
@@ -112,7 +98,6 @@ function HeroCarousel({ loggedInUser }: { loggedInUser: string }) {
 
   return (
     <section className="relative w-full h-[420px] md:h-[520px] overflow-hidden text-white text-center">
-
       {heroBannerImages.map((url, index) => (
         <div
           key={index}
@@ -154,49 +139,108 @@ function HeroCarousel({ loggedInUser }: { loggedInUser: string }) {
           />
         ))}
       </div>
-
     </section>
   );
 }
 
 // ============================================================
-// COMPONENTE — Carrusel de productos
+// Carrusel productos
 // ============================================================
-function ProductCarousel({ title, products, isSale = false }: {
+function ProductCarousel({ title, products, isSale = false, autoScroll = false }: {
   title: string;
   products: Product[];
   isSale?: boolean;
+  autoScroll?: boolean; 
 }) {
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const [isHovered, setIsHovered] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!autoScroll || isHovered || products.length <= 2) return;
+
+    const timer = setInterval(() => {
+      if (carouselRef.current) {
+        const container = carouselRef.current;
+        const cardWidth = 312; 
+        const maxScroll = container.scrollWidth - container.clientWidth;
+
+        if (container.scrollLeft >= maxScroll - 10) {
+          container.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          container.scrollBy({ left: cardWidth, behavior: 'smooth' });
+        }
+      }
+    }, 2500); // Velocidad
+
+    return () => clearInterval(timer);
+  }, [autoScroll, isHovered, products]);
+
   return (
-    <section>
+    <section 
+      onMouseEnter={() => setIsHovered(true)} 
+      onMouseLeave={() => setIsHovered(false)}
+      className="relative"
+    >
       <h3 className="text-2xl font-bold text-gray-800 mb-6 pl-2 border-l-4 border-blue-600">
         {title}
       </h3>
-      <div className="flex overflow-x-auto gap-6 pb-6 snap-x snap-mandatory scrollbar-hide">
+      
+      <div 
+        ref={carouselRef}
+        className="flex overflow-x-auto gap-6 pb-6 snap-x snap-mandatory scrollbar-hide scroll-smooth"
+      >
         {products.map((product) => (
           <article
-            key={product.id}
+            key={product.productResourceId}
             className="flex-none w-64 md:w-72 bg-white rounded-2xl shadow-sm hover:shadow-xl transition-shadow duration-300 snap-start overflow-hidden border border-gray-100 relative group"
           >
-            {isSale && product.discount && (
+            {isSale && product.discount > 0 && (
               <span className="absolute top-3 right-3 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full z-10">
-                {product.discount}
+                -{product.discount}%
               </span>
             )}
 
             <div className="w-full h-48 bg-gray-200 overflow-hidden">
               <img
-                src={product.imageUrl}
+                src={product.image || 'https://via.placeholder.com/300x200?text=Sin+Imagen'}
                 alt={product.name}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               />
             </div>
-            <div className="p-5">
-              <h4 className="text-lg font-semibold text-gray-800 mb-2 truncate">{product.name}</h4>
-              <p className="text-xl font-bold text-blue-700 mb-4">₡{product.price.toLocaleString('es-CR')}</p>
-              <button className="w-full bg-gray-900 text-white py-2 rounded-lg font-medium hover:bg-gray-800 transition-colors">
-                Agregar al Carrito
-              </button>
+            
+            <div className="p-5 flex flex-col justify-between h-44">
+              <div>
+                <span className="text-xs text-gray-400 font-mono block mb-1">
+                  Cód: {product.code}
+                </span>
+                <h4 className="text-base font-semibold text-gray-800 mb-2 truncate">
+                  {product.name}
+                </h4>
+              </div>
+
+              <div>
+                <div className="flex items-center justify-between mb-3">
+                  <p className="text-xl font-bold text-blue-700">
+                    ₡{product.price.toLocaleString('es-CR')}
+                  </p>
+                  <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full ${
+                    product.quantity > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                  }`}>
+                    {product.quantity > 0 ? `Stock: ${product.quantity}` : 'Agotado'}
+                  </span>
+                </div>
+
+                <button 
+                  disabled={product.quantity <= 0}
+                  className={`w-full py-2 rounded-lg font-medium text-xs transition-colors ${
+                    product.quantity > 0 
+                      ? 'bg-gray-900 text-white hover:bg-gray-800' 
+                      : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                  }`}
+                >
+                  {product.quantity > 0 ? 'Agregar al Carrito 🛒' : 'Agotado'}
+                </button>
+              </div>
             </div>
           </article>
         ))}

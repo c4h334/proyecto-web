@@ -9,9 +9,10 @@ export default function Header() {
   const navigationLinks = [
     { name: 'Inicio', path: '/' },
     { name: 'Tienda', path: '/store' },
-    { name: 'Carrito', path: '/cart' },
     { name: 'Contacto', path: '/contact' },
     { name: 'Iniciar Sesión', path: '/login' },
+    { name: 'Carrito', path: '/cart' },
+
   ];
 
   const logoUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXhZJmn53lcPqe8AAbsWjdX4RfnO7Ok4q9YA&s";
