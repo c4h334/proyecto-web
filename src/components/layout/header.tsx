@@ -1,19 +1,35 @@
 import { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
 export default function Header() {
-  // Estado para controlar el menú móvil (Subtarea 1.4)
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { isAuthenticated, user, logout } = useAuth();
+  const navigate = useNavigate();
 
-  // Enlaces de navegación definidos en el Jira (Subtarea 1.3)
-  const navigationLinks = [
+  const commonLinks = [
     { name: 'Inicio', path: '/' },
     { name: 'Tienda', path: '/store' },
     { name: 'Contacto', path: '/contact' },
-    { name: 'Iniciar Sesión', path: '/login' },
-    { name: 'Carrito', path: '/cart' },
-
   ];
+
+  const authLinks = isAuthenticated 
+    ? [
+        ...commonLinks,
+        { name: 'Carrito', path: '/cart' },
+        { name: 'Mi Perfil', path: '/profile' },
+      ]
+    : [
+        ...commonLinks,
+        { name: 'Iniciar Sesión', path: '/login' },
+        { name: 'Registrarse', path: '/register' },
+      ];
+
+  const handleLogout = () => {
+    logout();
+    setIsMenuOpen(false);
+    navigate('/');
+  };
 
   const logoUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXhZJmn53lcPqe8AAbsWjdX4RfnO7Ok4q9YA&s";
 
@@ -22,7 +38,6 @@ export default function Header() {
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           
-          {/* Logo Section - Cliqueable hacia Home  */}
           <div className="flex-shrink-0 flex items-center">
             <Link to="/" className="flex items-center gap-3 hover:opacity-90 transition-opacity">
               <img 
@@ -36,9 +51,8 @@ export default function Header() {
             </Link>
           </div>
 
-          {/* Desktop Navigation - Visible en pantallas medianas y grandes */}
-          <div className="hidden md:flex space-x-8">
-            {navigationLinks.map((link) => (
+          <div className="hidden md:flex space-x-8 items-center">
+            {authLinks.map((link) => (
               <NavLink
                 key={link.name}
                 to={link.path}
@@ -51,9 +65,22 @@ export default function Header() {
                 {link.name}
               </NavLink>
             ))}
+
+            {isAuthenticated && (
+              <div className="flex items-center space-x-4 border-l border-gray-200 pl-4">
+                <span className="text-sm font-medium text-gray-500">
+                  Hola, {user?.userName}
+                </span>
+                <button
+                  onClick={handleLogout}
+                  className="text-sm font-medium text-red-600 hover:text-red-800 transition-colors"
+                >
+                  Cerrar Sesión
+                </button>
+              </div>
+            )}
           </div>
 
-          {/* Mobile Menu Button - Regla Mobile First (Subtarea 1.4) */}
           <div className="md:hidden flex items-center">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -71,11 +98,10 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Mobile Navigation Menu - Se despliega al hacer clic en el botón */}
         {isMenuOpen && (
           <div className="md:hidden py-4 border-t border-gray-100 bg-white">
             <div className="flex flex-col space-y-4">
-              {navigationLinks.map((link) => (
+              {authLinks.map((link) => (
                 <NavLink
                   key={link.name}
                   to={link.path}
@@ -89,6 +115,15 @@ export default function Header() {
                   {link.name}
                 </NavLink>
               ))}
+
+              {isAuthenticated && (
+                <button
+                  onClick={handleLogout}
+                  className="px-4 py-2 text-left text-base font-medium text-red-600 hover:bg-red-50 transition-colors"
+                >
+                  Cerrar Sesión
+                </button>
+              )}
             </div>
           </div>
         )}
