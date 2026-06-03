@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import type { Product } from '../models/responses/Product';
 import { getProducts } from '../services/ProductService';
+import { useCart } from '../components/cart/CartContext';
 
 const heroBannerImages = [
   "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?q=80&w=1200&auto=format&fit=crop", 
@@ -155,6 +156,8 @@ function ProductCarousel({ title, products, isSale = false, autoScroll = false }
   const carouselRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState<boolean>(false);
 
+  const { addToCart } = useCart();
+
   useEffect(() => {
     if (!autoScroll || isHovered || products.length <= 2) return;
 
@@ -232,11 +235,13 @@ function ProductCarousel({ title, products, isSale = false, autoScroll = false }
 
                 <button 
                   disabled={product.quantity <= 0}
-                  className={`w-full py-2 rounded-lg font-medium text-xs transition-colors ${
+                  onClick={() => addToCart(product)}
+                  
+                  className={`w-full py-2 px-4 rounded font-medium text-xs transform transition-all duration-150 ${
                     product.quantity > 0 
-                      ? 'bg-gray-900 text-white hover:bg-gray-800' 
-                      : 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                  }`}
+                    ? 'bg-blue-600 text-white hover:bg-blue-700 cursor-pointer active:scale-95' 
+                    : 'bg-gray-100 text-gray-400 cursor-not-allowed scale'
+                    }`}
                 >
                   {product.quantity > 0 ? 'Agregar al Carrito 🛒' : 'Agotado'}
                 </button>

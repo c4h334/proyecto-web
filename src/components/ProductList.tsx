@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import type { Product } from "../models/responses/Product";
 import { getProducts } from "../services/ProductService";
+import { useCart } from "./cart/CartContext";
 
 export function ProductList() {
   const [products, setProducts] = useState<Product[]>([]);
+
+  const { addToCart } = useCart();
 
   useEffect(() => {
     loadProducts();
@@ -105,10 +108,12 @@ export function ProductList() {
 
                         <button
                           disabled={product.quantity <= 0}
-                          className={`w-full py-2 px-4 rounded font-medium text-xs transition-colors duration-200 ${
+                          onClick={() => addToCart(product)}
+
+                          className={`w-full py-2 px-4 rounded font-medium text-xs transform transition-all duration-150 ${
                             product.quantity > 0 
-                              ? 'bg-blue-600 text-white hover:bg-blue-700' 
-                              : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                              ? 'bg-blue-600 text-white hover:bg-blue-700 cursor-pointer active:scale-95' 
+                              : 'bg-gray-100 text-gray-400 cursor-not-allowed scale'
                           }`}
                         >
                           {product.quantity > 0 ? 'Agregar al Carrito 🛒' : 'No Disponible'}
