@@ -2,11 +2,15 @@ import { useEffect, useState } from "react";
 import type { Product } from "../models/responses/Product";
 import { getProducts } from "../services/ProductService";
 import { useCart } from "./cart/CartContext";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+
 
 export function ProductList() {
   const [products, setProducts] = useState<Product[]>([]);
-
   const { addToCart } = useCart();
+  const { isAuthenticated } = useAuth(); 
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     loadProducts();

@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useState } from 'react';
 import type { Product } from '../../models/responses/Product';
+import { useAuth } from '../../context/AuthContext'; 
+import { useNavigate } from 'react-router-dom'; 
 
 export interface CartItem extends Product {
   cartQuantity: number;
@@ -19,6 +21,8 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const { isAuthenticated } = useAuth(); 
+  const navigate = useNavigate();
   
   // Estados de las notis
   const [notification, setNotification] = useState<string | null>(null);
@@ -37,6 +41,11 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const addToCart = (product: Product) => {
+    // Si un usuario anónimo ejecuta esta acción, se corta.
+    if (!isAuthenticated) {
+      navigate('/login');
+      return; // Evita agregar al estado y previene por completo el triggerNotification de abajo
+    }
     // REvisa el estado actual para saber si se alcanza el límite de stock antes de actualizar
     const existingItem = cartItems.find(item => item.productResourceId === product.productResourceId);
     
