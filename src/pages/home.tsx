@@ -5,7 +5,7 @@ import { getProducts } from '../services/ProductService';
 import { useCart } from '../components/cart/CartContext';
 
 const heroBannerImages = [
-  "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?q=80&w=1200&auto=format&fit=crop", 
+  "/public/background.jpg",
   "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1200&auto=format&fit=crop",
   "https://images.unsplash.com/photo-1498049794561-7780e7231661?q=80&w=1200&auto=format&fit=crop",
 ];
