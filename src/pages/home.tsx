@@ -27,7 +27,6 @@ export default function Home() {
       });
   }, []);
 
-  const mainProducts = products.slice(0, 8);
   const newArrivals = [...products].reverse().slice(0, 6); // Ampliado a 6 para notar más el carrusel
   const saleProducts = products.filter(product => product.discount > 0);
 
