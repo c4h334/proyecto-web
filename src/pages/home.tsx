@@ -5,8 +5,7 @@ import { getProducts } from '../services/ProductService';
 import { useCart } from '../components/cart/CartContext';
 
 const heroBannerImages = [
-  "../public/background.jpg",
-  "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1200&auto=format&fit=crop",
+  "https://scontent.fsyq1-1.fna.fbcdn.net/v/t51.82787-15/687639043_18586414192050988_3771035259687086064_n.jpg?stp=dst-jpg_tt6&cstp=mx3275x4096&ctp=s3275x4096&_nc_cat=105&ccb=1-7&_nc_sid=127cfc&_nc_ohc=SlYwrnlIAlcQ7kNvwGT8tiy&_nc_oc=AdoaG2iM9HJHTW9SBDxRP8W_pTyBxjE-yaTessxR31dUwNudTSYvjIdeoAYqHAt0wSk&_nc_zt=23&_nc_ht=scontent.fsyq1-1.fna&_nc_gid=EZw3dFguLcSyNJCfs0WQiw&_nc_ss=7b289&oh=00_Af9emN_h_60DzRh_YoUNr9_NzmUgg50FB4OoEI9pcom7Pg&oe=6A2FACF9",  "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1200&auto=format&fit=crop",
   "https://images.unsplash.com/photo-1498049794561-7780e7231661?q=80&w=1200&auto=format&fit=crop",
 ];
 
