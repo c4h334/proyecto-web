@@ -1,7 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { GaleriaProyectos } from '../components/GaleriaProyectos';
-import type { Customer } from '../models/responses/Customer';
-import { getCustomers } from '../services/CustomerService';
+import React from 'react';
 import { ProductList } from '../components/ProductList';
 
 const colors = {
@@ -14,23 +11,6 @@ const colors = {
 };
 
 const Store: React.FC = () => {
-  const [customers, setCustomers] = useState<Customer[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    getCustomers()
-      .then((data) => {
-        setCustomers(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error al conectar con el backend de clientes:", err);
-        setError("No se pudieron cargar los clientes desde el servidor.");
-        setLoading(false);
-      });
-  }, []);
-
   const styles: { [key: string]: any } = {
     page: {
       fontFamily: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif',
@@ -103,33 +83,6 @@ const Store: React.FC = () => {
       fontWeight: 'bold',
       marginTop: '20px',
       cursor: 'pointer',
-    },
-
-    customerGrid: {
-      display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-      gap: '25px',
-    },
-
-    customerCard: {
-      backgroundColor: colors.white,
-      border: `1px solid ${colors.border}`,
-      borderRadius: '10px',
-      padding: '20px',
-      boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
-    },
-
-    customerName: {
-      fontSize: '1.3rem',
-      color: colors.primary,
-      fontWeight: '600',
-      marginBottom: '10px',
-    },
-
-    customerDetail: {
-      fontSize: '0.95rem',
-      margin: '4px 0',
-      color: '#555555',
     },
   };
 

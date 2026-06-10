@@ -9,8 +9,10 @@ import Register from "./pages/register.tsx";
 import Profile from "./pages/profile.tsx";
 import { AuthProvider, useAuth } from "./context/AuthContext.tsx";
 import CarPage from "./pages/carPage.tsx";
-import { ProductList } from "./components/ProductList.tsx";
+import ProductDetail from "./pages/ProductDetail.tsx";
 import { CartProvider } from "./components/cart/CartContext.tsx";
+
+
 
 // Componente para proteger las rutas privadas del lado del cliente
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -30,17 +32,17 @@ function App() {
           <Route path="/login" element={<Layout><Login /></Layout>} />
           <Route path="/register" element={<Layout><Register /></Layout>} />
 
-          {/* Ruta protegida */}
+          {/* Ruta protegida de perfil*/}
           <Route path="/profile" element={<Layout><Profile /></Layout>} />
-
+          
           {/* Rutas con CartProvider */}
           <Route element={<CartProvider><Outlet /></CartProvider>}>
             <Route path="/" element={<Layout><Home /></Layout>} />
             <Route path="/store" element={<Layout><Store /></Layout>} />
+            <Route path="/product/:id" element={<Layout><ProductDetail /></Layout>} />
 
             {/* Ruta del Carrito Protegida */}
-            <Route path="/cart" element={<Layout><CarPage /></Layout>} />
-          </Route>
+            <Route path="/cart" element={<ProtectedRoute><Layout><CarPage /></Layout></ProtectedRoute>} />          </Route>
         </Routes>
       </Router>
     </AuthProvider>

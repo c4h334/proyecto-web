@@ -13,7 +13,22 @@ export async function getProducts(): Promise<Product[]> {
 
     return await response.json();
   } catch (error) {
-    console.error("Error en ProductService:", error);
+      console.error("Error en ProductService:", error);
+    throw error;
+  }
+}
+
+export async function getProductById(id: string): Promise<Product> {
+  try {
+    const response = await fetch(`${API_URL}/${id}`);
+
+    if (!response.ok) {
+      throw new Error("No se pudo obtener el detalle del producto");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error en getProductById:", error);
     throw error;
   }
 }
