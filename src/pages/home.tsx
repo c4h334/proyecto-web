@@ -96,7 +96,7 @@ function HeroCarousel({ loggedInUser }: { loggedInUser: string }) {
   }, []);
 
   return (
-    <section className="relative w-full h-[420px] md:h-[520px] overflow-hidden text-white text-center">
+    <section className="relative w-full h-[360px] sm:h-[450px] md:h-[520px] overflow-hidden text-white text-center">
       {heroBannerImages.map((url, index) => (
         <div
           key={index}
@@ -109,19 +109,19 @@ function HeroCarousel({ loggedInUser }: { loggedInUser: string }) {
         </div>
       ))}
 
-      <div className="absolute inset-0 flex flex-col items-center justify-center px-6 z-10 pointer-events-none">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">¡Te damos la bienvenida de vuelta, {loggedInUser}!</h1>
-        <h2 className="text-2xl md:text-3xl font-semibold text-blue-200 mb-6">
+      <div className="absolute inset-0 flex flex-col items-center justify-center px-4 sm:px-6 z-10 pointer-events-none">
+        <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-3 md:mb-4 px-2">¡Te damos la bienvenida de vuelta, {loggedInUser}!</h1>
+        <h2 className="text-lg sm:text-2xl md:text-3xl font-semibold text-blue-200 mb-4 md:mb-6 px-2">
           Bienvenido a tu Tienda de Confianza
         </h2>
-        <p className="text-lg text-gray-300 max-w-2xl mb-8 leading-relaxed">
+        <p className="text-xs sm:text-base md:text-lg text-gray-300 max-w-xs sm:max-w-xl md:max-w-2xl mb-6 md:mb-8 leading-relaxed px-4">
           Somos tu mejor opción para encontrar electrodomésticos, tecnología y artículos para el hogar.
         </p>
-        <div className="flex flex-wrap justify-center gap-4 pointer-events-auto">
-          <Link to="/store" className="bg-white text-blue-900 px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors shadow-lg">
+        <div className="flex flex-wrap justify-center gap-3 md:gap-4 pointer-events-auto px-4">
+          <Link to="/store" className="bg-white text-blue-900 px-5 py-2.5 sm:px-6 sm:py-3 rounded-full font-semibold text-sm sm:text-base hover:bg-gray-100 transition-colors shadow-lg">
             Ver Catálogo Completo
           </Link>
-          <Link to="/contact" className="border-2 border-white text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-800 transition-colors">
+          <Link to="/contact" className="border-2 border-white text-white px-5 py-2.5 sm:px-6 sm:py-3 rounded-full font-semibold text-sm sm:text-base hover:bg-blue-800 transition-colors">
             Contáctanos
           </Link>
         </div>
