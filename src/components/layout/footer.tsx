@@ -55,11 +55,11 @@ const Footer = () => {
             <h4 className="mb-4 text-xl font-bold text-white">Info</h4>
 
             <div className="space-y-4">
-              <div className="flex items-start gap-3 rounded-lg bg-blue-950/40 p-4 transition-colors hover:bg-blue-950/60 border border-white/5">
+              <div className="flex items-start gap-3 rounded-lg bg-[#014681] p-4 transition-colors hover:bg-blue-950/60 border border-white/5">
                 <div className="text-2xl">✉</div>
                 <div>
                   <strong className="block text-white">Email</strong>
-                  <div className="text-sm text-[#014681]">
+                  <div className="text-sm text-blue-200/80">
                     andersonJesusMonchoAlvaricoqui.@ucr.ac.cr
                   </div>
                 </div>
