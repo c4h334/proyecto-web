@@ -39,8 +39,8 @@ const handleSubmit = async (e: React.FormEvent) => {
       
       <div className="absolute inset-0 bg-black/30"></div>
 
-      <div className="relative z-10 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white/80 backdrop-blur-md py-8 px-4 shadow-2xl sm:rounded-3xl border border-white/50 sm:px-10">
+      <div className="relative z-10 w-full max-w-md mx-auto px-4">
+        <div className="bg-white/80 backdrop-blur-md py-8 px-6 sm:px-10 shadow-2xl rounded-2xl sm:rounded-3xl border border-white/50">
           
           <div className="mb-8">
             <h2 className="text-center text-3xl font-extrabold text-gray-900">
