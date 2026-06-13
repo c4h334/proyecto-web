@@ -110,7 +110,7 @@ function HeroCarousel({ loggedInUser }: { loggedInUser: string }) {
       ))}
 
       <div className="absolute inset-0 flex flex-col items-center justify-center px-6 z-10 pointer-events-none">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">Welcome back, {loggedInUser}!</h1>
+        <h1 className="text-4xl md:text-5xl font-bold mb-4">¡Te damos la bienvenida de vuelta, {loggedInUser}!</h1>
         <h2 className="text-2xl md:text-3xl font-semibold text-blue-200 mb-6">
           Bienvenido a tu Tienda de Confianza
         </h2>
