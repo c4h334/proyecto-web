@@ -5,7 +5,8 @@ export default function CarPage() {
   const { cartItems, removeFromCart, updateQuantity, getTotalPrice, clearCart } = useCart();
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 min-h-[70vh]">
+    <div className="bg-[#fbf9f4] min-h-[calc(100vh-4rem)]">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 min-h-[70vh]">
       <div className="border-b border-gray-200 pb-5 mb-8">
         <h1 className="text-3xl font-extrabold tracking-tight text-gray-900">
           Tu Carrito de Compras 🛒
@@ -35,7 +36,7 @@ export default function CarPage() {
             {cartItems.map((item) => (
               <article 
                 key={item.productResourceId}
-                className="bg-white border border-gray-200 rounded-xl p-4 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between shadow-sm"
+                className="bg-white/85 backdrop-blur-md border border-white/50 rounded-xl p-4 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between shadow-md hover:shadow-lg transition-all duration-300"
               >
                 <div className="flex items-center gap-4 flex-1 min-w-0 w-full">
                   {/* Imagen del producto */}
@@ -49,7 +50,7 @@ export default function CarPage() {
 
                   {/* Detalles de texto */}
                   <div className="flex-1 min-w-0">
-                    <span className="text-[10px] font-mono text-gray-400 block">Cód: {item.code}</span>
+                    <span className="text-[10px] text-gray-400 block">Cód: {item.code}</span>
                     <h3 className="font-semibold text-gray-900 text-base truncate">{item.name}</h3>
                     <p className="text-sm font-bold text-blue-600 mt-1">
                       ₡{item.price.toLocaleString("es-CR")} c/u
@@ -98,7 +99,7 @@ export default function CarPage() {
           </div>
 
           {/* Panel Lateral del Resumen de la Orden (Precio Total) */}
-          <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm h-fit">
+          <div className="bg-white/80 backdrop-blur-md border border-white/50 rounded-xl p-6 shadow-xl h-fit">
             <h2 className="text-lg font-bold text-gray-900 mb-4 border-b pb-2">Resumen del Pedido</h2>
             
             <div className="space-y-3 text-sm">
@@ -116,13 +117,13 @@ export default function CarPage() {
               {/* CRITERIO: Mostrar precio total acumulado */}
               <div className="flex justify-between text-base font-extrabold text-gray-900 pt-2">
                 <span>Total a Pagar:</span>
-                <span className="text-xl text-blue-700">₡{getTotalPrice().toLocaleString("es-CR")}</span>
+                <span className="text-xl text-blue-900">₡{getTotalPrice().toLocaleString("es-CR")}</span>
               </div>
             </div>
 
             <button 
               onClick={() => alert("¡Funcionalidad de pago próximamente en el siguiente Sprint! 🚀")}
-              className="w-full mt-6 bg-blue-600 text-white text-center py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors shadow-sm"
+              className="w-full mt-6 bg-blue-900 text-white text-center py-3 rounded-lg font-semibold hover:bg-blue-800 transition-colors shadow-md active:scale-[0.98] transform duration-150"
             >
               Continuar con la compra
             </button>
@@ -130,6 +131,7 @@ export default function CarPage() {
 
         </div>
       )}
+      </div>
     </div>
   );
 }

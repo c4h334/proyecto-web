@@ -61,10 +61,10 @@ export default function ProductDetail() {
         ← Volver atrás
       </button>
 
-      <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden grid grid-cols-1 md:grid-cols-2 gap-8 p-6 md:p-10">
+      <div className="bg-white/80 backdrop-blur-md border border-white/50 rounded-2xl shadow-xl overflow-hidden grid grid-cols-1 md:grid-cols-2 gap-8 p-6 md:p-10">
         
         {/* Columna Izquierda: Imagen */}
-        <div className="w-full h-72 sm:h-96 md:h-[450px] bg-gray-50 rounded-xl overflow-hidden flex items-center justify-center relative border border-gray-100">
+        <div className="w-full h-72 sm:h-96 md:h-[450px] bg-white/50 backdrop-blur-sm rounded-xl overflow-hidden flex items-center justify-center relative border border-white/40">
           <img 
             src={product.image || 'https://via.placeholder.com/500x400?text=Sin+Imagen'} 
             alt={product.name} 
@@ -80,7 +80,7 @@ export default function ProductDetail() {
         {/* Columna Derecha: Información y Compra */}
         <div className="flex flex-col justify-between space-y-6">
           <div>
-            <span className="text-xs font-mono text-gray-400 block mb-1">
+            <span className="text-xs text-gray-400 block mb-1">
               Código del artículo: {product.code}
             </span>
             <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900 mb-3 tracking-tight">
@@ -131,9 +131,9 @@ export default function ProductDetail() {
             <button
               disabled={product.quantity <= 0}
               onClick={() => addToCart(product)}
-              className={`w-full py-3 px-6 rounded-xl font-bold text-sm shadow-sm transition-all transform duration-150 ${
+              className={`w-full py-3 px-6 rounded-xl font-bold text-sm shadow-md transition-all transform duration-150 ${
                 product.quantity > 0 
-                  ? 'bg-blue-600 text-white hover:bg-blue-700 active:scale-[0.98] cursor-pointer' 
+                  ? 'bg-blue-900 text-white hover:bg-blue-800 active:scale-[0.98] cursor-pointer' 
                   : 'bg-gray-100 text-gray-400 cursor-not-allowed'
               }`}
             >

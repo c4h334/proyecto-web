@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import type { Product } from '../models/responses/Product';
 import { getProducts } from '../services/ProductService';
 import { useCart } from '../components/cart/CartContext';
+import { useAuth } from '../context/AuthContext';
 
 const heroBannerImages = [
   "https://scontent.fsyq1-1.fna.fbcdn.net/v/t51.82787-15/687639043_18586414192050988_3771035259687086064_n.jpg?stp=dst-jpg_tt6&cstp=mx3275x4096&ctp=s3275x4096&_nc_cat=105&ccb=1-7&_nc_sid=127cfc&_nc_ohc=SlYwrnlIAlcQ7kNvwGT8tiy&_nc_oc=AdoaG2iM9HJHTW9SBDxRP8W_pTyBxjE-yaTessxR31dUwNudTSYvjIdeoAYqHAt0wSk&_nc_zt=23&_nc_ht=scontent.fsyq1-1.fna&_nc_gid=EZw3dFguLcSyNJCfs0WQiw&_nc_ss=7b289&oh=00_Af9emN_h_60DzRh_YoUNr9_NzmUgg50FB4OoEI9pcom7Pg&oe=6A2FACF9",  "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1200&auto=format&fit=crop",
@@ -10,7 +11,6 @@ const heroBannerImages = [
 ];
 
 export default function Home() {
-  const loggedInUser = "Cliente";
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -30,23 +30,23 @@ export default function Home() {
   const saleProducts = products.filter(product => product.discount > 0);
 
   return (
-    <main className="w-full bg-gray-50 min-h-screen pb-12 overflow-hidden">
-      <HeroCarousel loggedInUser={loggedInUser} />
+    <main className="w-full bg-[#fbf9f4] min-h-screen pb-12 overflow-hidden">
+      <HeroCarousel />
 
       {/* Info general del proyecto */}
-      <section className="bg-white border-b border-gray-100 py-10 px-4">
+      <section className="bg-transparent border-b border-gray-200/50 py-12 px-4">
         <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
-          <div className="flex flex-col items-center gap-2">
+          <div className="bg-white/75 backdrop-blur-sm border border-white/50 p-6 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 flex flex-col items-center gap-2">
             <span className="text-3xl">🏬</span>
             <h3 className="font-bold text-gray-800 text-lg">Amplio Catálogo</h3>
             <p className="text-gray-500 text-sm">Cientos de productos en electrodomésticos, tecnología y más.</p>
           </div>
-          <div className="flex flex-col items-center gap-2">
+          <div className="bg-white/75 backdrop-blur-sm border border-white/50 p-6 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 flex flex-col items-center gap-2">
             <span className="text-3xl">🚚</span>
             <h3 className="font-bold text-gray-800 text-lg">Envío Rápido</h3>
             <p className="text-gray-500 text-sm">Entregamos a todo el país con seguimiento en tiempo real.</p>
           </div>
-          <div className="flex flex-col items-center gap-2">
+          <div className="bg-white/75 backdrop-blur-sm border border-white/50 p-6 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 flex flex-col items-center gap-2">
             <span className="text-3xl">🛡️</span>
             <h3 className="font-bold text-gray-800 text-lg">Garantía Oficial</h3>
             <p className="text-gray-500 text-sm">Todos nuestros productos cuentan con garantía de fábrica.</p>
@@ -85,8 +85,9 @@ export default function Home() {
 // ============================================================
 // Carrusel
 // ============================================================
-function HeroCarousel({ loggedInUser }: { loggedInUser: string }) {
+function HeroCarousel() {
   const [current, setCurrent] = useState(0);
+  const { isAuthenticated, user } = useAuth();
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -110,10 +111,9 @@ function HeroCarousel({ loggedInUser }: { loggedInUser: string }) {
       ))}
 
       <div className="absolute inset-0 flex flex-col items-center justify-center px-4 sm:px-6 z-10 pointer-events-none">
-        <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-3 md:mb-4 px-2">¡Te damos la bienvenida de vuelta, {loggedInUser}!</h1>
-        <h2 className="text-lg sm:text-2xl md:text-3xl font-semibold text-blue-200 mb-4 md:mb-6 px-2">
-          Bienvenido a tu Tienda de Confianza
-        </h2>
+        <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-3 md:mb-4 px-2">
+          {isAuthenticated ? `¡Te damos la bienvenida, ${user?.name || user?.userName}! ` : '¡Te damos la bienvenida!'}
+        </h1>
         <p className="text-xs sm:text-base md:text-lg text-gray-300 max-w-xs sm:max-w-xl md:max-w-2xl mb-6 md:mb-8 leading-relaxed px-4">
           Somos tu mejor opción para encontrar electrodomésticos, tecnología y artículos para el hogar.
         </p>
@@ -193,7 +193,7 @@ function ProductCarousel({ title, products, isSale = false, autoScroll = false }
         {products.map((product) => (
           <article
             key={product.productResourceId}
-            className="flex-none w-64 md:w-72 bg-white rounded-2xl shadow-sm hover:shadow-xl transition-shadow duration-300 snap-start overflow-hidden border border-gray-100 relative group"
+            className="flex-none w-64 md:w-72 bg-white/85 backdrop-blur-md rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 snap-start overflow-hidden border border-white/50 relative group"
           >
             {isSale && product.discount > 0 && (
               <span className="absolute top-3 right-3 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full z-10">
@@ -211,7 +211,7 @@ function ProductCarousel({ title, products, isSale = false, autoScroll = false }
             
             <div className="p-5 flex flex-col justify-between h-44">
               <div>
-                <span className="text-xs text-gray-400 font-mono block mb-1">
+                <span className="text-xs text-gray-400 block mb-1">
                   Cód: {product.code}
                 </span>
                 <h4 className="text-base font-semibold text-gray-800 mb-2 truncate">
