@@ -64,7 +64,7 @@ export default function ProductDetail() {
       <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden grid grid-cols-1 md:grid-cols-2 gap-8 p-6 md:p-10">
         
         {/* Columna Izquierda: Imagen */}
-        <div className="w-full h-96 md:h-[450px] bg-gray-50 rounded-xl overflow-hidden flex items-center justify-center relative border border-gray-100">
+        <div className="w-full h-72 sm:h-96 md:h-[450px] bg-gray-50 rounded-xl overflow-hidden flex items-center justify-center relative border border-gray-100">
           <img 
             src={product.image || 'https://via.placeholder.com/500x400?text=Sin+Imagen'} 
             alt={product.name} 

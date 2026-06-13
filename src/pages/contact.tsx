@@ -73,7 +73,7 @@ const ContactoPage: React.FC = () => {
           border-radius: 12px;
           border: 1px solid var(--border);
           background: rgba(208, 240, 241, 0.89);
-          color: var(--text);
+          color: #0f172a;
           font-size: 14px;
           transition: all .2s ease;
         }
