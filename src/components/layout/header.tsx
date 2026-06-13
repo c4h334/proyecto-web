@@ -17,7 +17,7 @@ export default function Header() {
     ? [
         ...commonLinks,
         { name: 'Carrito', path: '/cart' },
-        { name: 'Mi Perfil', path: '/profile' },
+        { name: 'Perfil', path: '/profile' },
       ]
     : [
         ...commonLinks,

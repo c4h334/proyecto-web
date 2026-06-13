@@ -66,7 +66,7 @@ export function ProductList() {
                 {categoryProducts.map((product) => (
                   <div 
                     key={product.productResourceId} 
-                    className="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden flex flex-col hover:shadow-md transition-shadow duration-300"
+                    className="bg-white/85 backdrop-blur-md border border-white/50 rounded-2xl shadow-md overflow-hidden flex flex-col hover:shadow-2xl hover:scale-[1.01] transition-all duration-300"
                   >
                     {/* Contenedor de la Imagen */}
                     <Link to={`/product/${product.productResourceId}`} className="h-48 bg-gray-50 overflow-hidden relative flex items-center justify-center border-b border-gray-100 group">
@@ -85,7 +85,7 @@ export function ProductList() {
                     {/* Detalles del Producto */}
                     <div className="p-4 flex-1 flex flex-col justify-between">
                       <div className="mb-4">
-                        <span className="text-xs text-gray-400 font-mono block mb-1">
+                        <span className="text-xs text-gray-400 block mb-1">
                           Cód: {product.code}
                         </span>
 

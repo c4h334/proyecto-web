@@ -23,7 +23,7 @@ export default function Profile() {
   const inicial = (user.name || user.userName || 'U').charAt(0).toUpperCase();
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-gray-50 py-12 px-4 sm:px-6 flex justify-center items-start">
+    <div className="min-h-[calc(100vh-4rem)] bg-[#fbf9f4] py-12 px-4 sm:px-6 flex justify-center items-start">
       <div className="w-full max-w-lg bg-white shadow-lg rounded-2xl overflow-hidden border border-gray-200">
         
         <div className="bg-blue-900 px-6 py-10 text-center">

@@ -48,7 +48,7 @@ const handleSubmit = async (e: React.FormEvent) => {
             </h2>
             <p className="mt-2 text-center text-sm text-gray-700">
               ¿No tienes una cuenta?{' '}
-              <Link to="/register" className="font-medium text-blue-800 hover:text-blue-600 transition-colors">
+              <Link to="/register" className="font-medium text-[#014681] hover:text-[#014681]/80 transition-colors">
                 Regístrate aquí
               </Link>
             </p>
@@ -94,7 +94,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                 type="submit"
                 disabled={isLoading}
                 className={`w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-md text-sm font-bold text-white transition-all ${
-                  isLoading ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-900 hover:bg-blue-800 hover:shadow-lg'
+                  isLoading ? 'bg-blue-400 cursor-not-allowed' : 'bg-[#014681] hover:bg-[#013561] hover:shadow-lg'
                 }`}
               >
                 {isLoading ? 'Ingresando...' : 'Ingresar'}

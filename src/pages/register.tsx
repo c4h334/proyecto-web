@@ -45,7 +45,7 @@ export default function Register() {
               ¿Ya tienes una cuenta?{" "}
               <Link
                 to="/login"
-                className="font-medium text-blue-800 hover:text-blue-600 transition-colors"
+                className="font-medium text-[#014681] hover:text-[#014681]/80 transition-colors"
               >
                 Inicia sesión
               </Link>
@@ -142,7 +142,7 @@ export default function Register() {
                 className={`w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-md text-sm font-bold text-white transition-all ${
                   isLoading
                     ? "bg-blue-400 cursor-not-allowed"
-                    : "bg-blue-900 hover:bg-blue-800 hover:shadow-lg"
+                    : "bg-[#014681] hover:bg-[#013561] hover:shadow-lg"
                 }`}
               >
                 {isLoading ? "Registrando..." : "Registrarse"}
