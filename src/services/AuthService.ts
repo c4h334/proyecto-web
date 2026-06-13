@@ -1,6 +1,6 @@
-// src/services/AuthService.ts
+import { config } from "../config";
 
-const API_BASE_URL = "https://localhost:5001/api"; 
+const API_BASE_URL = config.api.url;
 
 export const AuthService = {
   login: async (credentials: unknown) => {
