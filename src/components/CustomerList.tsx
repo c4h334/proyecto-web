@@ -20,14 +20,6 @@ export function CustomerList() {
       });
   }, []);
 
-  async function loadCustomers() {
-    try {
-      const data = await getCustomers();
-      setCustomers(data);
-    } catch (error) {
-      console.error("Error cargando clientes:", error);
-    }
-  }
 
 return (
     <div style={{ maxWidth: "800px", margin: "40px auto", padding: "0 20px" }}>

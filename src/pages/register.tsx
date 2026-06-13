@@ -32,7 +32,7 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-[url('public/background.jpg')] bg-cover bg-center bg-no-repeat relative">
+    <div className="min-h-[calc(100vh-4rem)] flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-[url('../public/background.jpg')] bg-cover bg-center bg-no-repeat relative">
       <div className="absolute inset-0 bg-black/30"></div>
 
       <div className="relative z-10 sm:mx-auto sm:w-full sm:max-w-md">
