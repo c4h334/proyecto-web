@@ -5,8 +5,7 @@ import { getProducts } from '../services/ProductService';
 import { useCart } from '../components/cart/CartContext';
 
 const heroBannerImages = [
-  "/public/background.jpg",
-  "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1200&auto=format&fit=crop",
+  "https://scontent.fsyq1-1.fna.fbcdn.net/v/t51.82787-15/687639043_18586414192050988_3771035259687086064_n.jpg?stp=dst-jpg_tt6&cstp=mx3275x4096&ctp=s3275x4096&_nc_cat=105&ccb=1-7&_nc_sid=127cfc&_nc_ohc=SlYwrnlIAlcQ7kNvwGT8tiy&_nc_oc=AdoaG2iM9HJHTW9SBDxRP8W_pTyBxjE-yaTessxR31dUwNudTSYvjIdeoAYqHAt0wSk&_nc_zt=23&_nc_ht=scontent.fsyq1-1.fna&_nc_gid=EZw3dFguLcSyNJCfs0WQiw&_nc_ss=7b289&oh=00_Af9emN_h_60DzRh_YoUNr9_NzmUgg50FB4OoEI9pcom7Pg&oe=6A2FACF9",  "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1200&auto=format&fit=crop",
   "https://images.unsplash.com/photo-1498049794561-7780e7231661?q=80&w=1200&auto=format&fit=crop",
 ];
 
@@ -27,7 +26,6 @@ export default function Home() {
       });
   }, []);
 
-  const mainProducts = products.slice(0, 8);
   const newArrivals = [...products].reverse().slice(0, 6); // Ampliado a 6 para notar más el carrusel
   const saleProducts = products.filter(product => product.discount > 0);
 
@@ -98,7 +96,7 @@ function HeroCarousel({ loggedInUser }: { loggedInUser: string }) {
   }, []);
 
   return (
-    <section className="relative w-full h-[420px] md:h-[520px] overflow-hidden text-white text-center">
+    <section className="relative w-full h-[360px] sm:h-[450px] md:h-[520px] overflow-hidden text-white text-center">
       {heroBannerImages.map((url, index) => (
         <div
           key={index}
@@ -111,19 +109,19 @@ function HeroCarousel({ loggedInUser }: { loggedInUser: string }) {
         </div>
       ))}
 
-      <div className="absolute inset-0 flex flex-col items-center justify-center px-6 z-10 pointer-events-none">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">Welcome back, {loggedInUser}!</h1>
-        <h2 className="text-2xl md:text-3xl font-semibold text-blue-200 mb-6">
+      <div className="absolute inset-0 flex flex-col items-center justify-center px-4 sm:px-6 z-10 pointer-events-none">
+        <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-3 md:mb-4 px-2">¡Te damos la bienvenida de vuelta, {loggedInUser}!</h1>
+        <h2 className="text-lg sm:text-2xl md:text-3xl font-semibold text-blue-200 mb-4 md:mb-6 px-2">
           Bienvenido a tu Tienda de Confianza
         </h2>
-        <p className="text-lg text-gray-300 max-w-2xl mb-8 leading-relaxed">
+        <p className="text-xs sm:text-base md:text-lg text-gray-300 max-w-xs sm:max-w-xl md:max-w-2xl mb-6 md:mb-8 leading-relaxed px-4">
           Somos tu mejor opción para encontrar electrodomésticos, tecnología y artículos para el hogar.
         </p>
-        <div className="flex flex-wrap justify-center gap-4 pointer-events-auto">
-          <Link to="/store" className="bg-white text-blue-900 px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors shadow-lg">
+        <div className="flex flex-wrap justify-center gap-3 md:gap-4 pointer-events-auto px-4">
+          <Link to="/store" className="bg-white text-blue-900 px-5 py-2.5 sm:px-6 sm:py-3 rounded-full font-semibold text-sm sm:text-base hover:bg-gray-100 transition-colors shadow-lg">
             Ver Catálogo Completo
           </Link>
-          <Link to="/contact" className="border-2 border-white text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-800 transition-colors">
+          <Link to="/contact" className="border-2 border-white text-white px-5 py-2.5 sm:px-6 sm:py-3 rounded-full font-semibold text-sm sm:text-base hover:bg-blue-800 transition-colors">
             Contáctanos
           </Link>
         </div>

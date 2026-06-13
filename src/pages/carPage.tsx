@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../components/cart/CartContext';
 
@@ -36,28 +35,30 @@ export default function CarPage() {
             {cartItems.map((item) => (
               <article 
                 key={item.productResourceId}
-                className="bg-white border border-gray-200 rounded-xl p-4 flex gap-4 items-center shadow-sm"
+                className="bg-white border border-gray-200 rounded-xl p-4 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between shadow-sm"
               >
-                {/* Imagen del producto */}
-                <div className="w-20 h-20 bg-gray-50 rounded-lg overflow-hidden flex-shrink-0 border">
-                  <img 
-                    src={item.image || 'https://via.placeholder.com/150'} 
-                    alt={item.name} 
-                    className="w-full h-full object-cover"
-                  />
-                </div>
+                <div className="flex items-center gap-4 flex-1 min-w-0 w-full">
+                  {/* Imagen del producto */}
+                  <div className="w-20 h-20 bg-gray-50 rounded-lg overflow-hidden flex-shrink-0 border">
+                    <img 
+                      src={item.image || 'https://via.placeholder.com/150'} 
+                      alt={item.name} 
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
 
-                {/* Detalles de texto */}
-                <div className="flex-1 min-w-0">
-                  <span className="text-[10px] font-mono text-gray-400 block">Cód: {item.code}</span>
-                  <h3 className="font-semibold text-gray-900 text-base truncate">{item.name}</h3>
-                  <p className="text-sm font-bold text-blue-600 mt-1">
-                    ₡{item.price.toLocaleString("es-CR")} c/u
-                  </p>
+                  {/* Detalles de texto */}
+                  <div className="flex-1 min-w-0">
+                    <span className="text-[10px] font-mono text-gray-400 block">Cód: {item.code}</span>
+                    <h3 className="font-semibold text-gray-900 text-base truncate">{item.name}</h3>
+                    <p className="text-sm font-bold text-blue-600 mt-1">
+                      ₡{item.price.toLocaleString("es-CR")} c/u
+                    </p>
+                  </div>
                 </div>
 
                 {/* CRITERIO: Debe mostrar cantidad y controles */}
-                <div className="flex flex-col sm:flex-row items-center gap-2">
+                <div className="w-full sm:w-auto flex items-center justify-between sm:justify-end gap-4 border-t border-gray-100 sm:border-t-0 pt-3 sm:pt-0">
                   <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden bg-gray-50">
                     <button 
                       onClick={() => updateQuantity(item.productResourceId, 'decrease')}
@@ -79,10 +80,10 @@ export default function CarPage() {
                   {/* CRITERIO: Debe permitir eliminar productos del carrito */}
                   <button
                     onClick={() => removeFromCart(item.productResourceId)}
-                    className="p-2 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors"
+                    className="p-2 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors flex items-center gap-1"
                     title="Eliminar producto"
                   >
-                    🗑️ <span className="text-xs font-medium hidden sm:inline">Quitar</span>
+                    🗑️ <span className="text-xs font-medium">Quitar</span>
                   </button>
                 </div>
               </article>

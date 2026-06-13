@@ -1,11 +1,10 @@
-// src/services/AuthService.ts
+import { config } from "../config";
 
-const API_BASE_URL = "https://localhost:5001/api"; 
+const API_BASE_URL = config.api.url;
 
 export const AuthService = {
   login: async (credentials: unknown) => {
-    // CORRECCIÓN AQUÍ: Apuntando a la ruta exacta del controlador y método
-    const response = await fetch(`${API_BASE_URL}/authorization/authorize`, { 
+    const response = await fetch(`${API_BASE_URL}/api/authorization/authorize`, { 
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(credentials),
@@ -20,7 +19,7 @@ export const AuthService = {
   },
 
   register: async (userData: unknown) => {
-    const response = await fetch(`${API_BASE_URL}/users`, {
+    const response = await fetch(`${API_BASE_URL}/api/users`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(userData),
