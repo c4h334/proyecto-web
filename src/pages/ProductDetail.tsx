@@ -48,12 +48,14 @@ export default function ProductDetail() {
     );
   }
 
-  // Cálculo de precio con descuento si aplica
-  const finalPrice = product.price;
+  // --- CÁLCULO DE PRECIOS ---
+  const originalPrice = product.price;
+  const discountAmount = (product.price * product.discount) / 100;
+  const finalPrice = product.price - discountAmount;
+  // --------------------------
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      {/* Botón de navegación hacia atrás */}
       <button 
         onClick={() => navigate(-1)} 
         className="flex items-center text-sm font-medium text-blue-600 hover:text-blue-800 mb-8 transition-colors"
@@ -63,7 +65,6 @@ export default function ProductDetail() {
 
       <div className="bg-white/80 backdrop-blur-md border border-white/50 rounded-2xl shadow-xl overflow-hidden grid grid-cols-1 md:grid-cols-2 gap-8 p-6 md:p-10">
         
-        {/* Columna Izquierda: Imagen */}
         <div className="w-full h-72 sm:h-96 md:h-[450px] bg-white/50 backdrop-blur-sm rounded-xl overflow-hidden flex items-center justify-center relative border border-white/40">
           <img 
             src={product.image || 'https://via.placeholder.com/500x400?text=Sin+Imagen'} 
@@ -77,7 +78,6 @@ export default function ProductDetail() {
           )}
         </div>
 
-        {/* Columna Derecha: Información y Compra */}
         <div className="flex flex-col justify-between space-y-6">
           <div>
             <span className="text-xs text-gray-400 block mb-1">
@@ -87,7 +87,6 @@ export default function ProductDetail() {
               {product.name}
             </h1>
             
-            {/* Tag de Categoría/Material */}
             {product.material && (
               <span className="inline-block bg-gray-100 text-gray-700 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider mb-4">
                 Material: {product.material}
@@ -96,19 +95,29 @@ export default function ProductDetail() {
 
             <hr className="border-gray-100 my-4" />
 
-            {/* Bloque de Precios */}
+            {/* Bloque de Precios Refactorizado */}
             <div className="space-y-1">
               <div className="flex items-baseline space-x-3">
-                <span className="text-3xl font-black text-gray-900">
-                  ₡{finalPrice.toLocaleString("es-CR")}
-                </span>
+                {product.discount > 0 ? (
+                  <>
+                    <span className="text-3xl font-black text-gray-900">
+                      ₡{finalPrice.toLocaleString("es-CR")}
+                    </span>
+                    <span className="text-xl text-gray-400 line-through">
+                      ₡{originalPrice.toLocaleString("es-CR")}
+                    </span>
+                  </>
+                ) : (
+                  <span className="text-3xl font-black text-gray-900">
+                    ₡{originalPrice.toLocaleString("es-CR")}
+                  </span>
+                )}
               </div>
               <p className="text-xs text-gray-400">Precios incluyen impuestos de venta locales.</p>
             </div>
 
             <hr className="border-gray-100 my-4" />
 
-            {/* Descripción */}
             <div className="space-y-2">
               <h3 className="text-sm font-bold text-gray-800 uppercase tracking-wide">Descripción del producto</h3>
               <p className="text-sm text-gray-600 leading-relaxed">
@@ -117,7 +126,6 @@ export default function ProductDetail() {
             </div>
           </div>
 
-          {/* Estado de Stock y Acciones */}
           <div className="pt-4 border-t border-gray-100">
             <div className="flex items-center justify-between mb-4">
               <span className="text-sm font-medium text-gray-700">Disponibilidad:</span>
@@ -140,7 +148,6 @@ export default function ProductDetail() {
               {product.quantity > 0 ? 'Añadir al Carrito de Compras 🛒' : 'Producto No Disponible'}
             </button>
           </div>
-
         </div>
       </div>
     </div>

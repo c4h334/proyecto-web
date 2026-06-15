@@ -5,11 +5,10 @@ import { useCart } from "./cart/CartContext";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 
-
 export function ProductList() {
   const [products, setProducts] = useState<Product[]>([]);
   const { addToCart } = useCart();
-  useAuth(); 
+  useAuth();
 
   useEffect(() => {
     loadProducts();
@@ -24,7 +23,6 @@ export function ProductList() {
     }
   }
 
-  // Extrae las categorías únicas mapeando la propiedad 'material'
   const categories = Array.from(
     new Set(products.map((product) => product.material || "Otros"))
   );
@@ -46,7 +44,6 @@ export function ProductList() {
         </p>
       ) : (
         categories.map((category) => {
-          // Filtro de productos por categoría
           const categoryProducts = products.filter(
             (product) => (product.material || "Otros") === category
           );
@@ -63,71 +60,81 @@ export function ProductList() {
               </div>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {categoryProducts.map((product) => (
-                  <div 
-                    key={product.productResourceId} 
-                    className="bg-white/85 backdrop-blur-md border border-white/50 rounded-2xl shadow-md overflow-hidden flex flex-col hover:shadow-2xl hover:scale-[1.01] transition-all duration-300"
-                  >
-                    {/* Contenedor de la Imagen */}
-                    <Link to={`/product/${product.productResourceId}`} className="h-48 bg-gray-50 overflow-hidden relative flex items-center justify-center border-b border-gray-100 group">
-                      <img 
-                        src={product.image || 'https://via.placeholder.com/300x200?text=Sin+Imagen'} 
-                        alt={product.name} 
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                      {product.discount > 0 && (
-                        <span className="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">
-                          -{product.discount}%
-                        </span>
-                      )}
-                    </Link>
-                    
-                    {/* Detalles del Producto */}
-                    <div className="p-4 flex-1 flex flex-col justify-between">
-                      <div className="mb-4">
-                        <span className="text-xs text-gray-400 block mb-1">
-                          Cód: {product.code}
-                        </span>
-
-                        <Link to={`/product/${product.productResourceId}`} className="hover:text-blue-600 transition-colors">
-                          <h3 className="text-base font-semibold text-gray-900 mb-1 line-clamp-1">
-                            {product.name}
-                          </h3>
-                        </Link>
-                        
-                        <p className="text-xs text-gray-500 line-clamp-2">
-                          {product.description || 'Sin descripción disponible.'}
-                        </p>
-                      </div>
-
-                      <div>
-                        <div className="flex items-baseline justify-between mb-3">
-                          <span className="text-lg font-bold text-gray-900">
-                            ₡{product.price.toLocaleString("es-CR")}
+                {categoryProducts.map((product) => {
+                  const discountAmount = (product.price * product.discount) / 100;
+                  const finalPrice = product.price - discountAmount;
+                  
+                  return (
+                    <div 
+                      key={product.productResourceId} 
+                      className="bg-white/85 backdrop-blur-md border border-white/50 rounded-2xl shadow-md overflow-hidden flex flex-col hover:shadow-2xl hover:scale-[1.01] transition-all duration-300"
+                    >
+                      <Link to={`/product/${product.productResourceId}`} className="h-48 bg-gray-50 overflow-hidden relative flex items-center justify-center border-b border-gray-100 group">
+                        <img 
+                          src={product.image || 'https://via.placeholder.com/300x200?text=Sin+Imagen'} 
+                          alt={product.name} 
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                        {product.discount > 0 && (
+                          <span className="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">
+                            -{product.discount}%
                           </span>
-                          <span className={`text-[11px] font-medium px-2 py-0.5 rounded-full ${
-                            product.quantity > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                          }`}>
-                            {product.quantity > 0 ? `Stock: ${product.quantity}` : 'Agotado'}
+                        )}
+                      </Link>
+                      
+                      <div className="p-4 flex-1 flex flex-col justify-between">
+                        <div className="mb-4">
+                          <span className="text-xs text-gray-400 block mb-1">
+                            Cód: {product.code}
                           </span>
+
+                          <Link to={`/product/${product.productResourceId}`} className="hover:text-blue-600 transition-colors">
+                            <h3 className="text-base font-semibold text-gray-900 mb-1 line-clamp-1">
+                              {product.name}
+                            </h3>
+                          </Link>
+                          
+                          <p className="text-xs text-gray-500 line-clamp-2">
+                            {product.description || 'Sin descripción disponible.'}
+                          </p>
                         </div>
 
-                        <button
-                          disabled={product.quantity <= 0}
-                          onClick={() => addToCart(product)}
+                        <div>
+                          {/* Bloque de precios mejorado */}
+                          <div className="flex flex-col mb-3">
+                            <div className="flex items-baseline gap-2">
+                              <span className="text-lg font-bold text-gray-900">
+                                ₡{finalPrice.toLocaleString("es-CR")}
+                              </span>
+                              {product.discount > 0 && (
+                                <span className="text-xs text-gray-400 line-through">
+                                  ₡{product.price.toLocaleString("es-CR")}
+                                </span>
+                              )}
+                            </div>
+                            <span className={`text-[11px] font-medium px-2 py-0.5 rounded-full self-start mt-1 ${
+                              product.quantity > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                            }`}>
+                              {product.quantity > 0 ? `Stock: ${product.quantity}` : 'Agotado'}
+                            </span>
+                          </div>
 
-                          className={`w-full py-2 px-4 rounded font-medium text-xs transform transition-all duration-150 ${
-                            product.quantity > 0 
-                              ? 'bg-blue-600 text-white hover:bg-blue-700 cursor-pointer active:scale-95' 
-                              : 'bg-gray-100 text-gray-400 cursor-not-allowed scale'
-                          }`}
-                        >
-                          {product.quantity > 0 ? 'Agregar al Carrito 🛒' : 'No Disponible'}
-                        </button>
+                          <button
+                            disabled={product.quantity <= 0}
+                            onClick={() => addToCart(product)}
+                            className={`w-full py-2 px-4 rounded font-medium text-xs transform transition-all duration-150 ${
+                              product.quantity > 0 
+                                ? 'bg-blue-600 text-white hover:bg-blue-700 cursor-pointer active:scale-95' 
+                                : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                            }`}
+                          >
+                            {product.quantity > 0 ? 'Agregar al Carrito 🛒' : 'No Disponible'}
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           );
