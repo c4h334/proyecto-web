@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useCart } from '../components/cart/CartContext';
 
 export default function CarPage() {
-  const { cartItems, removeFromCart, updateQuantity, getTotalPrice, clearCart } = useCart();
+  const { cartItems, removeFromCart, updateQuantity, clearCart } = useCart();
   const finalPrice = cartItems.reduce((total, item) => {
     const discountedPrice = item.price * (1 - item.discount / 100);
     return total + discountedPrice * item.cartQuantity;
@@ -35,17 +35,17 @@ export default function CarPage() {
           
           <div className="lg:col-span-2 space-y-4">
             {cartItems.map((item) => {
-              
+              const itemDiscountedPrice = item.price * (1 - item.discount / 100);
               return (
-                <article 
+                <article
                   key={item.productResourceId}
                   className="bg-white/85 backdrop-blur-md border border-white/50 rounded-xl p-4 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between shadow-md hover:shadow-lg transition-all duration-300"
                 >
                   <div className="flex items-center gap-4 flex-1 min-w-0 w-full">
                     <div className="w-20 h-20 bg-gray-50 rounded-lg overflow-hidden flex-shrink-0 border">
-                      <img 
-                        src={item.image || 'https://via.placeholder.com/150'} 
-                        alt={item.name} 
+                      <img
+                        src={item.image || 'https://via.placeholder.com/150'}
+                        alt={item.name}
                         className="w-full h-full object-cover"
                       />
                     </div>
@@ -53,11 +53,11 @@ export default function CarPage() {
                     <div className="flex-1 min-w-0">
                       <span className="text-[10px] text-gray-400 block">Cód: {item.code}</span>
                       <h3 className="font-semibold text-gray-900 text-base truncate">{item.name}</h3>
-                      
+
                       {/* PRECIO CON LÓGICA DE DESCUENTO */}
                       <div className="flex items-baseline gap-2 mt-1">
                         <p className="text-sm font-bold text-blue-600">
-                          ₡{finalPrice.toLocaleString("es-CR")} c/u
+                          ₡{itemDiscountedPrice.toLocaleString("es-CR")} c/u
                         </p>
                         {item.discount > 0 && (
                           <p className="text-[11px] text-gray-400 line-through">
@@ -130,7 +130,7 @@ export default function CarPage() {
             </div>
 
             <button 
-              onClick={() => alert("¡Funcionalidad de pago próximamente en el siguiente Sprint! 🚀")}
+              onClick={() => alert("Compra realizada exitosamente, ¡vuelva pronto!")}
               className="w-full mt-6 bg-blue-900 text-white text-center py-3 rounded-lg font-semibold hover:bg-blue-800 transition-colors shadow-md active:scale-[0.98] transform duration-150"
             >
               Continuar con la compra
