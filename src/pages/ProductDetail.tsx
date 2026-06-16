@@ -130,22 +130,22 @@ export default function ProductDetail() {
             <div className="flex items-center justify-between mb-4">
               <span className="text-sm font-medium text-gray-700">Disponibilidad:</span>
               <span className={`text-xs font-bold px-3 py-1 rounded-full ${
-                product.quantity > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                product.available && product.quantity > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
               }`}>
-                {product.quantity > 0 ? `En Stock (${product.quantity} unidades)` : 'Agotado'}
+                {product.available && product.quantity > 0 ? `En Stock (${product.quantity} unidades)` : 'Agotado'}
               </span>
             </div>
 
             <button
-              disabled={product.quantity <= 0}
+              disabled={!product.available || product.quantity <= 0}
               onClick={() => addToCart(product)}
               className={`w-full py-3 px-6 rounded-xl font-bold text-sm shadow-md transition-all transform duration-150 ${
-                product.quantity > 0 
-                  ? 'bg-blue-900 text-white hover:bg-blue-800 active:scale-[0.98] cursor-pointer' 
+                product.available && product.quantity > 0
+                  ? 'bg-blue-900 text-white hover:bg-blue-800 active:scale-[0.98] cursor-pointer'
                   : 'bg-gray-100 text-gray-400 cursor-not-allowed'
               }`}
             >
-              {product.quantity > 0 ? 'Añadir al Carrito de Compras 🛒' : 'Producto No Disponible'}
+              {product.available && product.quantity > 0 ? 'Añadir al Carrito de Compras 🛒' : 'Producto No Disponible'}
             </button>
           </div>
         </div>

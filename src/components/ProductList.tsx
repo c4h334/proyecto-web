@@ -17,7 +17,7 @@ export function ProductList() {
   async function loadProducts() {
     try {
       const data = await getProducts();
-      setProducts(data);
+      setProducts(data.filter((p) => p.available));
     } catch (error) {
       console.error("Error cargando productos:", error);
     }
